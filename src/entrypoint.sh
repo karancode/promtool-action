@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set +x
-
 function parse_inputs {
     # inputs
     prom_version='2.16.0'
@@ -20,8 +18,8 @@ function parse_inputs {
     fi
 
     prom_comment=0
-    if [ "${INPUT_PROM_COMMENT}" == "1" ] || [ "${INPUT_PROM_COMMENT}" == "true"]; then
-        prom_comment=1
+    if [ "${INPUT_PROM_COMMENT}" == "1" ] || [ "${INPUT_PROM_COMMENT}" == "true" ]; then
+        prom_comment="1"
     fi
 }
 
