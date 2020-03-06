@@ -27,13 +27,13 @@ function promtool_check {
 
     # comment
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ] && [ "${prom_comment}" == "1" ]; then
-        check_comment_wrapper="#### \`promtool check ${prom_check_subcommand}\` ${prom_check_files}
+        check_comment_wrapper="#### \`promtool check ${prom_check_subcommand}\` ${check_comment_status}
 <details><summary>Show Output</summary>
-\`\`\`
-
+<pre><code>
 ${check_output}
- \`\`\`
+</code></pre>
 </details>
+
 *Workflow: \`${GITHUB_WORKFLOW}\`, Action: \`${GITHUB_ACTION}\`, Check Files: \`${prom_check_files}\`*"
 
         echo "check: info: creating json"
