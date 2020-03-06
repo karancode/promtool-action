@@ -17,7 +17,7 @@ function parse_inputs {
         prom_check_files=${INPUT_PROM_CHECK_FILES}
     fi
 
-    prom_comment=0
+    prom_comment="0"
     if [ "${INPUT_PROM_COMMENT}" == "1" ] || [ "${INPUT_PROM_COMMENT}" == "true" ]; then
         prom_comment="1"
     fi

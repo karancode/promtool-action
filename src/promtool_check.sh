@@ -30,6 +30,7 @@ function promtool_check {
         check_comment_wrapper="#### \`promtool check ${prom_check_subcommand}\` ${prom_check_files}
 <details><summary>Show Output</summary>
 \`\`\`
+
 ${check_output}
  \`\`\`
 </details>
