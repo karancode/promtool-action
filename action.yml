@@ -1,0 +1,30 @@
+# action.yaml
+name: 'Promtool Github Action'
+author: 'karancode <karanthanvi0@gmail.com>'
+description: 'Github action for promtool - quickly check whether a rule file is syntactically correct'
+branding:
+  icon: 'sun'
+  color: 'orange'
+inputs:
+  prom_version:
+    description: 'Prometheus version'
+    required: false
+    default: 'v2.16.0'
+  prom_config_file:
+    description: 'Prometheus config file'
+    required: false
+    default: './prometheus.yml'
+  prom_rules_files:
+    description: 'Prometheus rule file(s)'
+    required: false
+    default: './rules.yml'
+  prom_comment:
+    description: 'Comment promtool output'
+    required: false
+    default: '0'
+outputs:
+  promtool_output:
+    description: 'Output of promtool check'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
