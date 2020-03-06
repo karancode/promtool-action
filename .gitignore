@@ -351,3 +351,6 @@ MigrationBackup/
 
 # local dev test files
 *.devtest.*
+
+# idea files
+.idea/
