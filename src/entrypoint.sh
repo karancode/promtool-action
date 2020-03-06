@@ -2,24 +2,24 @@
 
 function parse_inputs {
     # inputs
-    prom_version = '2.16.0'
+    prom_version='2.16.0'
     if [ "${INPUT_PROM_VERSION}" != "" ]; then
-        prom_version = ${INPUT_PROM_VERSION}
+        prom_version=${INPUT_PROM_VERSION}
     fi
 
-    prom_check_subcommand = ""
+    prom_check_subcommand=""
     if [ "${INPUT_PROM_CHECK_SUBCOMMAND}" != "" ]; then
-        prom_check_subcommand = ${INPUT_PROM_CHECK_SUBCOMMAND}
+        prom_check_subcommand=${INPUT_PROM_CHECK_SUBCOMMAND}
     fi
 
-    prom_check_files = ""
+    prom_check_files=""
     if [ "${INPUT_PROM_CHECK_FILES}" != "" ]; then
-        prom_check_files = ${INPUT_PROM_CHECK_FILES}
+        prom_check_files=${INPUT_PROM_CHECK_FILES}
     fi
 
-    prom_comment = 0
+    prom_comment=0
     if [ "${INPUT_PROM_COMMENT}" == "1" ] || [ "${INPUT_PROM_COMMENT}" == "true"]; then
-        prom_comment = 1
+        prom_comment=1
     fi
 }
 
@@ -49,7 +49,7 @@ function install_promtool {
 
 function main {
 
-    scriptDir = $(dirname ${0})
+    scriptDir=$(dirname ${0})
     source ${scriptDir}/promtool_check.sh
     
     parse_inputs
