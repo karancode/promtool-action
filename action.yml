@@ -9,15 +9,13 @@ inputs:
   prom_version:
     description: 'Prometheus version'
     required: false
-    default: 'v2.16.0'
-  prom_config_file:
-    description: 'Prometheus config file'
-    required: false
-    default: './prometheus.yml'
-  prom_rules_files:
-    description: 'Prometheus rule file(s)'
-    required: false
-    default: './rules.yml'
+    default: '2.16.0'
+  prom_check_subcommand:
+    description: 'Promtool check command - config|rules'
+    required: true
+  prom_check_files: 
+    description: 'Promtheus config/rules file to check'
+    required: true
   prom_comment:
     description: 'Comment promtool output'
     required: false
