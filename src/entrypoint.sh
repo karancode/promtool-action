@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set +x
+
 function parse_inputs {
     # inputs
     prom_version='2.16.0'
