@@ -23,6 +23,14 @@ function parse_inputs {
     fi
 }
 
+function install_oq {
+  url="https://github.com/Blacksmoke16/oq/releases/download/v1.0.1/oq-1.0.1-linux-x86_64"
+  echo "Downloading oq"
+  wget "$url"
+  chmod +x oq-1.0.1-linux-x86_64
+  mv oq-1.0.1-linux-x86_64 /usr/bin/oq
+}
+
 function install_promtool {
     url="https://github.com/prometheus/prometheus/releases/download/v${prom_version}/prometheus-${prom_version}.linux-amd64.tar.gz"
 
@@ -43,7 +51,7 @@ function install_promtool {
     echo "Successfully extracted promtool."
 
     # cleanup
-    mv /tmp/promtool /usr/bin/promtool 
+    mv /tmp/promtool /usr/bin/promtool
     rm -rf /tmp/*
 }
 
@@ -51,9 +59,10 @@ function main {
 
     scriptDir=$(dirname ${0})
     source ${scriptDir}/promtool_check.sh
-    
+
     parse_inputs
 
+    install_oq
     install_promtool
 
     promtool_check
@@ -61,3 +70,4 @@ function main {
 }
 
 main "${*}"
+
