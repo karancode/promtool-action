@@ -13,7 +13,7 @@ inputs:
   prom_check_subcommand:
     description: 'Promtool check command - config|rules'
     required: true
-  prom_check_files: 
+  prom_check_files:
     description: 'Promtheus config/rules file to check'
     required: true
   prom_comment:

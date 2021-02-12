@@ -34,7 +34,7 @@ jobs:
       - name: 'Promtool Check'
         uses: karancode/promtool-action@v0.0.1
         with:
-          prom_version: '2.9.2'      
+          prom_version: '2.9.2'
           prom_check_subcommand: 'rules'
           prom_check_files: './prometheus/rules/*.yml'
           prom_comment: true
