@@ -21,6 +21,7 @@ function promtool_check {
           check_comment_status="Failed"
           echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
           echo "${check_output}"
+          check_exit_code=1
           echo
           break
       fi
