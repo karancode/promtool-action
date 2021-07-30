@@ -17,7 +17,7 @@ function promtool_check {
       check_exit_code=${?}
 
       # no rules round - failure
-      if [[ ${check_output} == *"0 rules found"* ]]; then
+      if [[ ${check_output} == *" 0 rules found"* ]]; then
           check_comment_status="Failed"
           echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
           echo "${check_output}"
