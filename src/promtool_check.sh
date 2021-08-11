@@ -13,8 +13,8 @@ function promtool_check {
     full_output=""
     for c in $changed_files; do
       check_output="$(promtool check "${prom_check_subcommand}" <(oq -i yaml '{"groups": .}' "${c}"))"
-      full_output="${c}:\n${check_output}\n${full_output}"
       check_exit_code=${?}
+      full_output="${c}:\n${check_output}\n${full_output}"
 
       # no rules round - failure
       if [[ ${check_output} == *" 0 rules found"* ]]; then
