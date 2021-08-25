@@ -7,23 +7,31 @@ function promtool_check {
 
     # NOTE(arthurb): If you use the pull_request.paths feature, the grep here is unnecessary
     set -o noglob
-    changed_files="$(git diff HEAD^ --name-only | grep "$(dirname "${prom_check_files}")")"
+    if [[ ${prom_check_subcommand} == *" check rules"* ]]; then
+      check_files="$(git diff HEAD^ --name-only | grep "$(dirname "${prom_check_files}")")"
+    fi
+
+    if [[ ${prom_check_subcommand} == *" test rules"* ]]; then
+      check_files="${prom_check_files}"
+    fi
     set +o noglob
 
     full_output=""
-    for c in $changed_files; do
-      check_output="$(promtool check "${prom_check_subcommand}" <(oq -i yaml '.spec' "${c}"))"
+    for c in $check_files; do
+      check_output="$(promtool "${prom_check_subcommand}" <(oq -i yaml '.spec' "${c}"))"
       check_exit_code=${?}
       full_output="${c}:\n${check_output}\n${full_output}"
 
-      # no rules round - failure
-      if [[ ${check_output} == *" 0 rules found"* ]]; then
-          check_comment_status="Failed"
-          echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
-          echo "${check_output}"
-          check_exit_code=1
-          echo
-          break
+      if [[ ${prom_check_subcommand} == *" check rules"* ]]; then
+        # no rules round - failure
+        if [[ ${check_output} == *" 0 rules found"* ]]; then
+            check_comment_status="Failed"
+            echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
+            echo "${check_output}"
+            check_exit_code=1
+            echo
+            break
+        fi
       fi
 
       # exit code 0 - success
@@ -54,7 +62,7 @@ $(echo -e "${full_output}")
 
 * Workflow: \`${GITHUB_WORKFLOW}\`
 * Action: \`${GITHUB_ACTION}\`
-* Check Files: \`$(echo -e "${changed_files}")\`"
+* Check Files: \`$(echo -e "${check_files}")\`"
 
         echo "check: info: creating json"
         check_payload=$(echo "${check_comment_wrapper}" | jq -R --slurp '{body: .}')
