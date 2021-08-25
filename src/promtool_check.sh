@@ -21,11 +21,11 @@ function promtool_check {
     for c in $check_files; do
       echo "testing file ${c}"
       check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
-      echo "testing output ${check_output}"
       check_exit_code=${?}
+      echo "testing output ${check_output}"
       full_output="${c}:\n${check_output}\n${full_output}"
 
-      if [[ ${prom_check_subcommand} == *" check rules"* ]]; then
+      if [[ ${prom_check_subcommand} == *"check"* ]]; then
         # no rules round - failure
         if [[ ${check_output} == *" 0 rules found"* ]]; then
             check_comment_status="Failed"
