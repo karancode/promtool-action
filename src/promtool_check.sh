@@ -8,11 +8,11 @@ function promtool_check {
 
     # NOTE(arthurb): If you use the pull_request.paths feature, the grep here is unnecessary
     set -o noglob
-    if [[ ${prom_check_subcommand} == *"check rules"* ]]; then
+    if [[ ${prom_check_subcommand} == *"check"* ]]; then
       check_files="$(git diff HEAD^ --name-only | grep "$(dirname "${prom_check_files}")")"
     fi
 
-    if [[ ${prom_check_subcommand} == *"test rules"* ]]; then
+    if [[ ${prom_check_subcommand} == *"test"* ]]; then
       check_files="${prom_check_files}"
     fi
     set +o noglob
@@ -20,7 +20,7 @@ function promtool_check {
     full_output=""
     for c in $check_files; do
       echo "testing file ${c}"
-      check_output="$(promtool "${prom_check_subcommand}" <(oq -i yaml '.spec' "${c}"))"
+      check_output="$(promtool "${prom_check_subcommand}" rules <(oq -i yaml '.spec' "${c}"))"
       echo "testing output ${check_output}"
       check_exit_code=${?}
       full_output="${c}:\n${check_output}\n${full_output}"
@@ -29,7 +29,7 @@ function promtool_check {
         # no rules round - failure
         if [[ ${check_output} == *" 0 rules found"* ]]; then
             check_comment_status="Failed"
-            echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
+            echo "check: error: failed to execute \`promtool ${prom_check_subcommand}\` for ${c}."
             echo "${check_output}"
             check_exit_code=1
             echo
@@ -40,7 +40,7 @@ function promtool_check {
       # exit code 0 - success
       if [ ${check_exit_code} -eq 0 ];then
           check_comment_status="Success"
-          echo "check: info: successfully executed \`promtool check ${prom_check_subcommand}\` for ${c}."
+          echo "check: info: successfully executed \`promtool ${prom_check_subcommand}\` for ${c}."
           echo "${check_output}"
           echo
       fi
@@ -49,7 +49,7 @@ function promtool_check {
       # NOTE(arthurb): This fast fails, which isn't ideal, but good enough for now
       if [ ${check_exit_code} -ne 0 ]; then
           check_comment_status="Failed"
-          echo "check: error: failed to execute \`promtool check ${prom_check_subcommand}\` for ${c}."
+          echo "check: error: failed to execute \`promtool ${prom_check_subcommand}\` for ${c}."
           echo "${check_output}"
           echo
           break
@@ -58,7 +58,7 @@ function promtool_check {
 
     # comment
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ] && [ "${prom_comment}" == "1" ]; then
-        check_comment_wrapper="#### \`promtool check ${prom_check_subcommand}\` ${check_comment_status}
+        check_comment_wrapper="#### \`promtool ${prom_check_subcommand}\` ${check_comment_status}
 \`\`\`shell
 $(echo -e "${full_output}")
 \`\`\`
