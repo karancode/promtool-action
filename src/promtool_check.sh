@@ -18,7 +18,9 @@ function promtool_check {
 
     full_output=""
     for c in $check_files; do
+      echo "testing file ${c}"
       check_output="$(promtool "${prom_check_subcommand}" <(oq -i yaml '.spec' "${c}"))"
+      echo "testing output ${check_output}"
       check_exit_code=${?}
       full_output="${c}:\n${check_output}\n${full_output}"
 
