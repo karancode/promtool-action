@@ -4,14 +4,15 @@ function promtool_check {
 
     # gather check promtool output
     echo "check: info: promtool check for ${prom_check_files}."
+    echo "test the cmd:${prom_check_subcommand}"
 
     # NOTE(arthurb): If you use the pull_request.paths feature, the grep here is unnecessary
     set -o noglob
-    if [[ ${prom_check_subcommand} == *" check rules"* ]]; then
+    if [[ ${prom_check_subcommand} == *"check rules"* ]]; then
       check_files="$(git diff HEAD^ --name-only | grep "$(dirname "${prom_check_files}")")"
     fi
 
-    if [[ ${prom_check_subcommand} == *" test rules"* ]]; then
+    if [[ ${prom_check_subcommand} == *"test rules"* ]]; then
       check_files="${prom_check_files}"
     fi
     set +o noglob
