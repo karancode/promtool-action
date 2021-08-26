@@ -26,8 +26,12 @@ function promtool_check {
       fi
 
       if [[ ${prom_check_subcommand} == *"test"* ]]; then
-        echo "$(oq -i yaml '.spec' ${c})" > ${c}
-
+        #target_file=(oq -i yaml '.rule_files' ${c}) | xargs -I{} basename {}
+        full_path_target_file=$(oq -c -i yaml '.rule_files' "test-eth2.yaml")
+        target_file=${full_path_target_file#"[\"../"}
+        target_file=${target_file%"\"]"}
+        echo "target file -> ${target_file}"
+        echo "$(oq -i yaml '.spec' ${target_file})" > ${c}
         cat ${c}
 
         check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
