@@ -27,6 +27,9 @@ function promtool_check {
 
       if [[ ${prom_check_subcommand} == *"test"* ]]; then
         echo "$(oq -i yaml '.spec' ${c})" > ${c}
+
+        cat ${c}
+
         check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
       fi
 
