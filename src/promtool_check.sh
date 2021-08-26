@@ -31,8 +31,8 @@ function promtool_check {
         target_file=${full_path_target_file#"[\"../"}
         target_file=${target_file%"\"]"}
         echo "target file -> ${target_file}"
-        echo "$(oq -i yaml '.spec' ${target_file})" > ${c}
-        cat ${c}
+        echo "$(oq -i yaml '.spec' ${target_file})" > ${target_file}
+        cat ${target_file}
 
         check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
       fi
