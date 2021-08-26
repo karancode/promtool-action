@@ -19,8 +19,17 @@ function promtool_check {
 
     full_output=""
     for c in $check_files; do
+
       echo "testing file ${c}"
-      check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
+      if [[ ${prom_check_subcommand} == *"check"* ]]; then
+        check_output="$(promtool check "${prom_check_subcommand}" <(oq -i yaml '.spec' "${c}"))"
+      fi
+
+      if [[ ${prom_check_subcommand} == *"test"* ]]; then
+        echo "$(oq -i yaml '.spec' ${c})" > ${c}
+        check_output="$(promtool "${prom_check_subcommand}" rules ${c})"
+      fi
+
       check_exit_code=${?}
       echo "testing output ${check_output}"
       full_output="${c}:\n${check_output}\n${full_output}"
